@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using OnlineShoppingPlatform.Models;
+using System;
 
 namespace OnlineShoppingPlatform
 {
@@ -16,8 +17,9 @@ namespace OnlineShoppingPlatform
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddDbContext<ShopContext>(options => options.UseInMemoryDatabase("Shop"));
-
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            builder.Services.AddDbContext<ShopContext>(options =>
+                options.UseSqlServer(connectionString));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
